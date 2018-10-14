@@ -5,37 +5,45 @@
 #include "matrix.hpp"
 #include <math.h>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 matrix::matrix(){
     matrix_array[1]={0.0};
-    matrix_size = 1;
+    this->matrix_size = 1;
 }
 matrix::matrix(int size){
-    matrix_array[size*size]={0.0};
+    if(size <= 0){
+        throw "Size cannot be 0 or negative";
+    }
+    this->matrix_array[size*size];
+    clear();
     this->matrix_size = size*size;
 }
 matrix::matrix(int r, int c){
-    matrix_array[r*c]={0.0};
-    row = r;
-    column = c;
-    matrix_size = r*c;
+    this->matrix_array[r*c]={0.0};
+    this->row = r;
+    this->column = c;
+    this->matrix_size = r*c;
 }
-matrix::matrix(double input[]){
-    matrix_size = sizeof(input);
+matrix::matrix(double input[], int size){
+    this->matrix_size = size;
     double sr = sqrt(matrix_size);
-    if((sr-floor(sr))==0){
+    if((sr-floor(sr))!=0){
         throw "size of array is not a perfect square";
     }
     for (int i = 0; i < matrix_size; i++){
         matrix_array[i] = input[i];
     }
+    this->row = sqrt(matrix_size);
+    this->column = sqrt(matrix_size);
 }
 void matrix::set_value(int r, int c, double value){
     matrix_array[row * c + r] = value;
 }
-double matrix::get_value(int r, int c){
-    return matrix_array[row * c + r];
+double matrix::get_value(int r, int c) const{
+    double temp = matrix_array[row * c + r];
+    return temp;
 }
 void matrix::clear(){
     for (int i = 0; i < matrix_size; i++){
@@ -46,13 +54,25 @@ matrix::~matrix(){
     cout<<"Matrix destroyed"<<"\r\n";
 }
 ostream &operator<< (std::ostream &os, const matrix &matrix){
-    int row_count = 1;
-    while(row_count<matrix.getRow()){
-        for(int i = 1; i < matrix.getColumn(); i++){
-//            cout<<matrix.get_value(1,i);
+
+    ostringstream output;
+    int n =1;
+    for(int i = 0; i < matrix.getRow(); i++){
+        cout << "Page " << matrix.nth_letter(n)<< ": ";
+        for(int j=0; j < matrix.getColumn(); j++){
+            cout << matrix.get_value(i,j);
         }
+        n++;
+        cout << "\r\n";
     }
 
+
+}
+char matrix::nth_letter(int n) const
+{
+    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if(n >= 1 && n <= 26)
+    return alpha[n-1];
 }
 bool operator== (const matrix &left_matrix, const matrix &right_matrix){
     if(left_matrix.getMatrix_size()!= right_matrix.getMatrix_size()){
@@ -74,18 +94,61 @@ matrix& matrix::operator++(){
 
 
 
-//matrix operator++(int){
-//
-//}
-//matrix& operator--();
-//matrix operator--(int);
-//matrix& operator= (matrix right);
-//matrix& operator+= (const matrix& right);
-//friend matrix operator+ (matrix left, const matrix& right);
-//matrix& operator-= (const matrix& right);
-//friend matrix operator- (matrix left, const matrix& right);
-//matrix& operator*= (const matrix& right);
-//friend matrix operator* (matrix left, matrix right);
+matrix operator++(matrix){
+
+}
+matrix& matrix::operator--(){
+
+}
+matrix operator--(matrix){
+
+}
+matrix& matrix::operator= (matrix right){
+    this-> row = right.getRow();
+    this->column = right.getColumn();
+    this->matrix_size = right.getMatrix_size();
+    for(int i = 0; i < getRow(); i++){
+        for(int j=0; j < getColumn(); j++){
+            set_value(i,j,right.get_value(i,j));
+        }
+
+    }
+
+}
+matrix& matrix::operator+= (const matrix& right){
+    for(int i = 0; i < getRow(); i++){
+        for(int j=0; j < getColumn(); j++){
+            set_value(i,j,get_value(i,j)+ right.get_value(i,j));
+        }
+
+    }
+}
+matrix operator+ (matrix left, const matrix& right){
+
+}
+matrix& matrix::operator-= (const matrix& right){
+    for(int i = 0; i < getRow(); i++){
+        for(int j=0; j < getColumn(); j++){
+            set_value(i,j,get_value(i,j)- right.get_value(i,j));
+        }
+
+    }
+}
+matrix operator- (matrix left, const matrix& right){
+
+}
+matrix& matrix::operator*= (const matrix& right){
+    double temp = 0;
+    for(int i = 0; i < getRow(); i++){
+        for(int j=0; j < getColumn(); j++){
+            temp += get_value(i,j)* right.get_value(j,0);
+        }
+
+    }
+}
+matrix operator* (matrix left, matrix right){
+
+}
 int matrix::getRow() const {
     return row;
 }
@@ -100,4 +163,16 @@ int matrix::getMatrix_size() const {
 
 const double *matrix::getMatrix_array() const {
     return matrix_array;
+}
+
+void matrix::setRow(int row) {
+    matrix::row = row;
+}
+
+void matrix::setColumn(int column) {
+    matrix::column = column;
+}
+
+void matrix::setMatrix_size(int matrix_size) {
+    matrix::matrix_size = matrix_size;
 }
