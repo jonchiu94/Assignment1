@@ -39,13 +39,6 @@ public:
     int getColumn() const;
 
     int getMatrix_size() const;
-
-    const double *getMatrix_array() const;
-    void setRow(int row);
-
-    void setColumn(int column);
-
-    void setMatrix_size(int matrix_size);
 };
 
 

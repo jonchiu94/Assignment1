@@ -124,7 +124,8 @@ matrix& matrix::operator+= (const matrix& right){
     }
 }
 matrix operator+ (matrix left, const matrix& right){
-
+    left += right;
+    return left;
 }
 matrix& matrix::operator-= (const matrix& right){
     for(int i = 0; i < getRow(); i++){
@@ -135,7 +136,8 @@ matrix& matrix::operator-= (const matrix& right){
     }
 }
 matrix operator- (matrix left, const matrix& right){
-
+    left -= right;
+    return left;
 }
 matrix& matrix::operator*= (const matrix& right){
     double temp = 0;
@@ -147,7 +149,8 @@ matrix& matrix::operator*= (const matrix& right){
     }
 }
 matrix operator* (matrix left, matrix right){
-
+    left *= right;
+    return left;
 }
 int matrix::getRow() const {
     return row;
@@ -161,18 +164,4 @@ int matrix::getMatrix_size() const {
     return matrix_size;
 }
 
-const double *matrix::getMatrix_array() const {
-    return matrix_array;
-}
 
-void matrix::setRow(int row) {
-    matrix::row = row;
-}
-
-void matrix::setColumn(int column) {
-    matrix::column = column;
-}
-
-void matrix::setMatrix_size(int matrix_size) {
-    matrix::matrix_size = matrix_size;
-}
