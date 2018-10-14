@@ -1,6 +1,10 @@
 #include <iostream>
-
+#include "matrix.hpp"
+using namespace std;
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    matrix* matrix_1 = new matrix();
+
+
     return 0;
 }
