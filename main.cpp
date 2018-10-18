@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "matrix.hpp"
+#include "connectivity.hpp"
 using namespace std;
 constexpr double random_walk {0.85};
 int main() {
@@ -23,7 +24,6 @@ int main() {
             temp_array[i] = temp[i];
         }
         matrix_1 = new matrix(temp_array, temp.size());
-        matrix_2 = new matrix(temp_array, temp.size());
         matrix_1->importance();
         matrix_1->scalar_multiply(random_walk);
         cout<<*matrix_1<<endl;

@@ -5,19 +5,19 @@
 #pragma once
 #include "matrix.hpp"
 
-class transition : public matrix{
+class connectivity : public matrix{
 private:
     int row;
     int column;
     int matrix_size;
     static double transition_array[];
 public:
-    transition();
-    transition(int size);
+    connectivity();
+    connectivity(int size);
     void set_value(int r, int c, double value);
     double get_value(int r, int c) const;
     void clear();
-    ~transition();
+    ~connectivity();
     friend std::ostream &operator<< (std::ostream &os, const matrix &matrix);
     int getRow() const;
 
