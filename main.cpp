@@ -4,13 +4,14 @@
 #include "matrix.hpp"
 using namespace std;
 int main() {
+    matrix* matrix_1;
+
     ifstream myFile{"../connectivity.txt"};
     if (!myFile){
         cerr << "error opening file" << endl;
         exit(1);
     }
     if (myFile.is_open()) {
-        matrix* matrix_1;
         vector<double> temp;
         double new_digit;
         while (myFile >> new_digit) {

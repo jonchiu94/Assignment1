@@ -10,9 +10,10 @@ private:
     int row;
     int column;
     int matrix_size;
-    double matrix_array[];
+    static double transition_array[];
 public:
     transition();
+    transition(int size);
     void set_value(int r, int c, double value);
     double get_value(int r, int c) const;
     void clear();
@@ -24,13 +25,7 @@ public:
 
     int getMatrix_size() const;
 
-    const double *getMatrix_array() const;
-    void setRow(int row);
 
-    void setColumn(int column);
-
-    void setMatrix_size(int matrix_size);
 };
 
 
-#endif //ASSIGNMENT1_TRANSITION_HPP

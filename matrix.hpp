@@ -9,7 +9,7 @@ private:
     int row;
     int column;
     int matrix_size;
-    double matrix_array[];
+    double *matrix_array;
 public:
     matrix();
     matrix(int size);
@@ -18,6 +18,7 @@ public:
     void set_value(int r, int c, double value);
     double get_value(int r, int c) const;
     void clear();
+    matrix(const matrix& c);
     ~matrix();
     char nth_letter(int n) const;
     friend std::ostream &operator<< (std::ostream &os, const matrix &matrix);
@@ -27,13 +28,15 @@ public:
     matrix operator++(int);
     matrix& operator--();
     matrix operator--(int);
-    matrix& operator= (matrix right);
+    void swap(matrix& first, matrix& second);
+    matrix& operator= (matrix& right);
     matrix& operator+= (const matrix& right);
     friend matrix operator+ (matrix left, const matrix& right);
     matrix& operator-= (const matrix& right);
     friend matrix operator- (matrix left, const matrix& right);
     matrix& operator*= (const matrix& right);
     friend matrix operator* (matrix left, matrix right);
+    void importance();
     int getRow() const;
 
     int getColumn() const;
