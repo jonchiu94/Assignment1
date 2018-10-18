@@ -3,9 +3,10 @@
 #include <vector>
 #include "matrix.hpp"
 using namespace std;
+constexpr double random_walk {0.85};
 int main() {
     matrix* matrix_1;
-
+    matrix* matrix_2;
     ifstream myFile{"../connectivity.txt"};
     if (!myFile){
         cerr << "error opening file" << endl;
@@ -22,6 +23,9 @@ int main() {
             temp_array[i] = temp[i];
         }
         matrix_1 = new matrix(temp_array, temp.size());
+        matrix_2 = new matrix(temp_array, temp.size());
+        matrix_1->importance();
+        matrix_1->scalar_multiply(random_walk);
         cout<<*matrix_1<<endl;
         myFile.close();
     }

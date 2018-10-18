@@ -68,7 +68,7 @@ ostream &operator<< (std::ostream &os, const matrix &matrix){
     for(int i = 0; i < matrix.getRow(); i++){
 //        cout << "Page " << matrix.nth_letter(n)<< ": ";
         for(int j=0; j < matrix.getColumn(); j++){
-            cout << matrix.get_value(i,j);
+            cout << matrix.get_value(i,j) << " ";
         }
 //        n++;
         cout << "\r\n";
@@ -156,15 +156,16 @@ matrix operator- (matrix left, const matrix& right){
     return left;
 }
 matrix& matrix::operator*= (const matrix& right){
+    if(row!= right.getColumn()){
+        throw "Number of rows in second matrix must match number of columns in first matrix";
+    }
     auto * temp_matrix = new double[row*right.getColumn()];
-    double temp = 0;
-    for(int i = 0; i < getRow(); i++){
-        int pos_count =0;
-        for(int j=0; j < right.getColumn(); j++){
-            temp += get_value(i,j)* right.get_value(j,i);
-            pos_count = j;
+    for(int i = 0; i < getRow(); ++i){
+        for(int j=0; j < right.getColumn(); ++j){
+            for(int k = 0; k < getColumn(); ++k){
+                temp_matrix[row * i + j] += (get_value(i,k)* right.get_value(k,j));
+            }
         }
-        temp_matrix[row * i + pos_count] = temp;
     }
     delete[] matrix_array;
     matrix_array = new double[row*right.getColumn()];
@@ -179,19 +180,32 @@ matrix operator* (matrix left, matrix right){
     return left;
 }
 void matrix::importance(){
-    int* temp = new int[row];
-    double count{0.0};
+    int* temp = new int[column]{0};
+    int count{0};
     for(int i = 0; i < column; i++){
         for (int j = 0; j < row; j++){
             if(matrix_array[row*j + i] == 1){
-                temp[i] = row*j + i;
+                temp[j] = row*j + i;
                 count++;
             }
         }
-        for(int k = 0; k < row; k++){
-            matrix_array[temp[k]] = matrix_array[temp[k]]/ count;
+        if(count == 0){
+            for (int k = 0; k < column; k++) {
+                matrix_array[row * k + i] = (1.0 / column);
+            }
+        }else {
+            for (int k = 0; k < column; k++) {
+                if (matrix_array[temp[k]] == 1) {
+                    matrix_array[temp[k]] = matrix_array[temp[k]] / count;
+                }
+            }
         }
-        count= 0.0;
+        count= 0;
+    }
+}
+matrix& matrix::scalar_multiply (double random_walk) {
+    for(int i = 0; i < matrix_size; i++){
+        matrix_array[i] *= random_walk;
     }
 }
 int matrix::getRow() const {

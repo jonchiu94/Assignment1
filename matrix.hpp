@@ -37,6 +37,7 @@ public:
     matrix& operator*= (const matrix& right);
     friend matrix operator* (matrix left, matrix right);
     void importance();
+    matrix& scalar_multiply (double random_walk);
     int getRow() const;
 
     int getColumn() const;
