@@ -207,7 +207,7 @@ matrix operator- (matrix left, const matrix& right){
 }
 //overloaded *= operator that multiples another matrix to itself
 matrix& matrix::operator*= (const matrix& right){
-    if(row!= right.getRow()){
+    if(column!= right.getRow()){
         throw "Number of rows in second matrix must match number of columns in first matrix";
     }
     auto * temp_matrix = new double[row*right.getColumn()];
@@ -228,6 +228,9 @@ matrix& matrix::operator*= (const matrix& right){
 }
 //overloaded * operator that multiplies two matrices
 matrix* operator* (matrix left, matrix right){
+    if(left.getColumn()!= right.getRow()){
+        throw "Number of rows in second matrix must match number of columns in first matrix";
+    }
     left *= right;
     return &left;
 }
