@@ -35,6 +35,9 @@ matrix::matrix(int size){
 //matrix constructor that takes two int for row and column size
 //initializes array to all 1s
 matrix::matrix(int r, int c){
+    if(r <= 0 || c <= 0){
+        throw "R and C cannot be negative or zero";
+    }
     row = r;
     column = c;
     matrix_size = r*c;
@@ -61,11 +64,20 @@ matrix::matrix(double input[], int size){
 }
 //Sets the value inside of matrix in specified row and column to specified value
 void matrix::set_value(int r, int c, double value){
+    if(r < 0 || c < 0){
+        throw "R and C cannot be negative";
+    }
+    if(r > PERCENTAGE || c > PERCENTAGE){
+        throw "R and C cannot be too large";
+    }
     matrix_array[row * r + c] = value;
 }
 //Gets the value inside of matrix in specified row and column
 //returns a double
 double matrix::get_value(int r, int c) const{
+    if(r < 0 || c < 0){
+        throw "R and C cannot be negative";
+    }
      return matrix_array[row * r + c];
 
 }
