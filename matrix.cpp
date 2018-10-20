@@ -193,6 +193,7 @@ matrix operator- (matrix left, const matrix& right){
     left -= right;
     return left;
 }
+//overloaded *= operator that multiples another matrix to itself
 matrix& matrix::operator*= (const matrix& right){
     if(row!= right.getRow()){
         throw "Number of rows in second matrix must match number of columns in first matrix";
@@ -213,10 +214,13 @@ matrix& matrix::operator*= (const matrix& right){
     return *this;
 
 }
+//overloaded * operator that multiplies two matrices
 matrix operator* (matrix left, matrix right){
     left *= right;
     return left;
 }
+//Divides every 1 in column of matrix by the total 1s in column
+//Divides entire column by 1/column if column contains only 0
 void matrix::importance(){
     int* temp = new int[column]{0};
     int count{0};
@@ -241,11 +245,13 @@ void matrix::importance(){
         count= 0;
     }
 }
+//Multiples every element in matrix by a double
 matrix& matrix::scalar_multiply (double random_walk) {
     for(int i = 0; i < matrix_size; i++){
         matrix_array[i] *= random_walk;
     }
 }
+//Changes every element in matrix to 1/column
 void matrix::change_matrix() {
     for(int i = 0; i < getRow(); i++){
         for(int j=0; j < getColumn(); j++){
@@ -253,6 +259,7 @@ void matrix::change_matrix() {
         }
     }
 }
+//converts every element in matrix to a percentage
 void matrix::percentage()
 {
     for (int i = 0; i < getRow(); ++i)
