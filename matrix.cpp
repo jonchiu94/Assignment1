@@ -105,6 +105,7 @@ char matrix::nth_letter(int n) const
     if(n >= 1 && n <= 26)
     return alpha[n-1];
 }
+//overloaded == operator that checks if elements in matrices are within tolerance of each other
 bool operator== (const matrix &left_matrix, const matrix &right_matrix){
     if(left_matrix.getMatrix_size()!= right_matrix.getMatrix_size()){
         return false;
@@ -119,16 +120,18 @@ bool operator== (const matrix &left_matrix, const matrix &right_matrix){
     }
     return true;
 }
+//overloaded != operator that checks if two matrices are not equal
 bool operator!= (const matrix &left_matrix, const matrix &right_matrix){
     return !(left_matrix==right_matrix);
 }
+//Overloaded pre-increment operator that increments all elements in matrix by 1
 matrix& matrix::operator++(){
     for(int i = 0; i < matrix_size; i++){
         matrix_array[i] = matrix_array[i] + 1.0;
     }
     return *this;
 }
-
+//overloaded post-increment operator
 matrix matrix::operator++(int){
     matrix(*this);
     operator++();
