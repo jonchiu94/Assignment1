@@ -131,23 +131,26 @@ matrix& matrix::operator++(){
     }
     return *this;
 }
-//overloaded post-increment operator
+//overloaded post-increment operator that increments all elements in matrix by 1
 matrix matrix::operator++(int){
     matrix(*this);
     operator++();
     return *this;
 }
+//overloaded pre-decrement operator that decrements all elements in matrix by 1
 matrix& matrix::operator--(){
     for(int i = 0; i < matrix_size; i++){
         matrix_array[i] = matrix_array[i] - 1.0;
     }
     return *this;
 }
+//overloaded post-decrement operator that decrements all elements in matrix by 1
 matrix matrix::operator--(int){
     matrix(*this);
     operator--();
     return *this;
 }
+//Swap function that uses std::swap to swap variables
 void matrix::swap(matrix& first, matrix& second){
     using std::swap;
     swap(first.matrix_size, second.matrix_size);
@@ -155,11 +158,14 @@ void matrix::swap(matrix& first, matrix& second){
     swap(first.row, second.row);
     swap(first.column, second.column);
 }
+//overloaded assignment operator
+//using swap function
 matrix& matrix::operator= (matrix& right){
     swap(*this, right);
     return *this;
 
 }
+//overloaded += operator that adds another matrix to itself
 matrix& matrix::operator+= (const matrix& right){
     for(int i = 0; i < getRow(); i++){
         for(int j=0; j < getColumn(); j++){
@@ -168,10 +174,12 @@ matrix& matrix::operator+= (const matrix& right){
 
     }
 }
+//overloaded + operator that adds two matrices
 matrix operator+ (matrix left, const matrix& right){
     left += right;
     return left;
 }
+//overloaded -= operator that subtracts another matrix to itself
 matrix& matrix::operator-= (const matrix& right){
     for(int i = 0; i < getRow(); i++){
         for(int j=0; j < getColumn(); j++){
@@ -180,6 +188,7 @@ matrix& matrix::operator-= (const matrix& right){
 
     }
 }
+//overloaded - operator that subtracts two matrices
 matrix operator- (matrix left, const matrix& right){
     left -= right;
     return left;
@@ -250,7 +259,7 @@ void matrix::percentage()
     {
         for (int j = 0; j < getColumn(); ++j)
         {
-            double temp = get_value(i, j) * PERCENTAGE;
+            double temp = get_value(j, i) * PERCENTAGE;
             float percent = (float) temp * PERCENTAGE;
             temp = roundf(percent) / PERCENTAGE;
             set_value(i, j, temp);
