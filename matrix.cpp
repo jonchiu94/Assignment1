@@ -273,14 +273,15 @@ void matrix::percentage()
         }
     }
 }
+//Returns the variable row
 int matrix::getRow() const {
     return row;
 }
-
+//Returns the variable column
 int matrix::getColumn() const {
     return column;
 }
-
+//Returns the variable matrix size
 int matrix::getMatrix_size() const {
     return matrix_size;
 }
