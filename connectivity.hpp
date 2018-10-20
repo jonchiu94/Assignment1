@@ -10,7 +10,7 @@ public:
     connectivity();
     connectivity(double matrix_array[], int matrix_size);
     ~connectivity();
-
+    connectivity& operator+= (const connectivity& right);
 
 
 };

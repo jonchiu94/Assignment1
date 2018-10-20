@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 using namespace std;
+constexpr double RANDOM_WALK {0.85};
 constexpr double epsilon = 0.000001;
 matrix::matrix(){
     row = 1;
@@ -23,6 +24,9 @@ matrix::matrix(int size){
     matrix_size = size*size;
     row = size;
     column = size;
+    change_matrix();
+    scalar_multiply(1.0-RANDOM_WALK);
+
 }
 matrix::matrix(int r, int c){
     row = r;
@@ -42,6 +46,8 @@ matrix::matrix(double input[], int size){
     }
     row = sqrt(matrix_size);
     column = sqrt(matrix_size);
+    importance();
+    scalar_multiply(RANDOM_WALK);
 }
 void matrix::set_value(int r, int c, double value){
     matrix_array[row * r + c] = value;
@@ -62,15 +68,14 @@ matrix::~matrix(){
     cout<<"Matrix destroyed"<<"\r\n";
 }
 ostream &operator<< (std::ostream &os, const matrix &matrix){
-
     ostringstream output;
-//    int n =1;
+    int n =1;
     for(int i = 0; i < matrix.getRow(); i++){
-//        cout << "Page " << matrix.nth_letter(n)<< ": ";
+        cout << "Page " << matrix.nth_letter(n)<< ": ";
         for(int j=0; j < matrix.getColumn(); j++){
             cout << matrix.get_value(i,j) << " ";
         }
-//        n++;
+        n++;
         cout << "\r\n";
     }
 
@@ -206,6 +211,13 @@ void matrix::importance(){
 matrix& matrix::scalar_multiply (double random_walk) {
     for(int i = 0; i < matrix_size; i++){
         matrix_array[i] *= random_walk;
+    }
+}
+void matrix::change_matrix() {
+    for(int i = 0; i < getRow(); i++){
+        for(int j=0; j < getColumn(); j++){
+            set_value(i,j, 1.0/getColumn());
+        }
     }
 }
 int matrix::getRow() const {

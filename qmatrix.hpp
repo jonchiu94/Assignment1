@@ -9,6 +9,7 @@ class qmatrix : public matrix{
 public:
     qmatrix();
     qmatrix(int size);
+    void change_matrix();
 };
 
 

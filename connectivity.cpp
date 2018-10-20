@@ -12,3 +12,4 @@ connectivity::connectivity(double matrix_array[], int matrix_size) : matrix(matr
 connectivity::~connectivity(){
 
 }
+
