@@ -215,9 +215,9 @@ matrix& matrix::operator*= (const matrix& right){
 
 }
 //overloaded * operator that multiplies two matrices
-matrix operator* (matrix left, matrix right){
+matrix* operator* (matrix left, matrix right){
     left *= right;
-    return left;
+    return &left;
 }
 //Divides every 1 in column of matrix by the total 1s in column
 //Divides entire column by 1/column if column contains only 0
