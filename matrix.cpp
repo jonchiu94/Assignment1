@@ -270,6 +270,7 @@ void matrix::percentage() {
         }
     }
 }
+//Divides the element in column by the sum of the column
 void matrix::markov() {
     for (int i = 0; i < getColumn(); ++i) {
         double sum = 0;

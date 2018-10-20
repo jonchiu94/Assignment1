@@ -17,15 +17,15 @@ connectivity::~connectivity(){
 matrix connectivity::transition(){
     int row = getRow();
     matrix S(*this);
-//    importance();
-//    scalar_multiply(RANDOM_WALK);
-//    matrix Q(row);
-//    Q.change_matrix();
-//    Q.scalar_multiply(1.0-RANDOM_WALK);
-//    matrix M = S + Q;
+    importance();
+    scalar_multiply(RANDOM_WALK);
+    matrix Q(row);
+    Q.change_matrix();
+    Q.scalar_multiply(1.0-RANDOM_WALK);
+    matrix M = S + Q;
     matrix rank(getRow(), 1);
-    while(*(S * rank) != rank){
-        rank = *(rank * S);
+    while(*(M * rank) != rank){
+        rank = *(rank * M);
     }
     rank.markov();
     cout<< rank << endl;
