@@ -39,6 +39,7 @@ public:
     void importance();
     matrix& scalar_multiply (double random_walk);
     void change_matrix();
+    void percentage();
     int getRow() const;
 
     int getColumn() const;

@@ -8,7 +8,10 @@
 #include <sstream>
 using namespace std;
 constexpr double RANDOM_WALK {0.85};
-constexpr double epsilon = 0.000001;
+constexpr double EPSILON = 0.001;
+constexpr double PERCENTAGE = 100;
+//matrix default constructor
+// creates array of 1 and sets it to 0.0
 matrix::matrix(){
     row = 1;
     column = 1;
@@ -16,24 +19,33 @@ matrix::matrix(){
     clear();
     matrix_size = 1;
 }
+//matrix constructor that takes an int size
+//creates matrix of size, size * size
 matrix::matrix(int size){
     if(size <= 0){
-        throw invalid_argument("Size cannot be 0 or negative");
+        throw ("Size cannot be 0 or negative");
     }
     matrix_array= new double[size*size]{};
     matrix_size = size*size;
     row = size;
     column = size;
-    change_matrix();
-    scalar_multiply(1.0-RANDOM_WALK);
+
 
 }
+//matrix constructor that takes two int for row and column size
+//initializes array to all 1s
 matrix::matrix(int r, int c){
     row = r;
     column = c;
     matrix_size = r*c;
     matrix_array = new double[r*c]{};
+    for (int i = 0; i < matrix_size; i++){
+        matrix_array[i] = 1;
+    }
+
 }
+//matrix constructor that takes an array of double and an int of size
+//throws exception if size is not a perfect square
 matrix::matrix(double input[], int size){
     matrix_array= new double[size]{};
     matrix_size = size;
@@ -46,34 +58,39 @@ matrix::matrix(double input[], int size){
     }
     row = sqrt(matrix_size);
     column = sqrt(matrix_size);
-    importance();
-    scalar_multiply(RANDOM_WALK);
 }
+//Sets the value inside of matrix in specified row and column to specified value
 void matrix::set_value(int r, int c, double value){
     matrix_array[row * r + c] = value;
 }
+//Gets the value inside of matrix in specified row and column
+//returns a double
 double matrix::get_value(int r, int c) const{
      return matrix_array[row * r + c];
 
 }
+//Sets all rows and columns to 0
 void matrix::clear(){
     for (int i = 0; i < matrix_size; i++){
         matrix_array[i]={0.0};
     }
 }
+//Matrix copy constructor
 matrix::matrix(const matrix& c) :matrix_size(c.matrix_size), matrix_array(c.matrix_array), row(c.row),column(c.column){
     cout<<"Matrix copied"<<"\r\n";
 };
+//matrix destructor
 matrix::~matrix(){
     cout<<"Matrix destroyed"<<"\r\n";
 }
+//Overloaded insertion operator that prints all values of matrix
 ostream &operator<< (std::ostream &os, const matrix &matrix){
     ostringstream output;
     int n =1;
     for(int i = 0; i < matrix.getRow(); i++){
         cout << "Page " << matrix.nth_letter(n)<< ": ";
         for(int j=0; j < matrix.getColumn(); j++){
-            cout << matrix.get_value(i,j) << " ";
+            cout << matrix.get_value(j,i) << "% ";
         }
         n++;
         cout << "\r\n";
@@ -81,6 +98,7 @@ ostream &operator<< (std::ostream &os, const matrix &matrix){
 
 
 }
+
 char matrix::nth_letter(int n) const
 {
     string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -91,10 +109,13 @@ bool operator== (const matrix &left_matrix, const matrix &right_matrix){
     if(left_matrix.getMatrix_size()!= right_matrix.getMatrix_size()){
         return false;
     }
-    for(int i =0; i < left_matrix.getMatrix_size(); i++){
-        if(fabs(left_matrix.matrix_array[i] - right_matrix.matrix_array[i]) > (epsilon * fabs(left_matrix.matrix_array[i]))){
-            return false;
+    for(int i =0; i < left_matrix.getRow(); i++){
+        for(int j = 0; j < left_matrix.getColumn(); j++){
+            if(fabs(left_matrix.get_value(i, j) - right_matrix.get_value(i, j)) > (EPSILON * fabs(left_matrix.matrix_array[i]))){
+                return false;
+            }
         }
+
     }
     return true;
 }
@@ -161,7 +182,7 @@ matrix operator- (matrix left, const matrix& right){
     return left;
 }
 matrix& matrix::operator*= (const matrix& right){
-    if(row!= right.getColumn()){
+    if(row!= right.getRow()){
         throw "Number of rows in second matrix must match number of columns in first matrix";
     }
     auto * temp_matrix = new double[row*right.getColumn()];
@@ -217,6 +238,19 @@ void matrix::change_matrix() {
     for(int i = 0; i < getRow(); i++){
         for(int j=0; j < getColumn(); j++){
             set_value(i,j, 1.0/getColumn());
+        }
+    }
+}
+void matrix::percentage()
+{
+    for (int i = 0; i < getRow(); ++i)
+    {
+        for (int j = 0; j < getColumn(); ++j)
+        {
+            double temp = get_value(i, j) * PERCENTAGE;
+            float percent = (float) temp * PERCENTAGE;
+            temp = roundf(percent) / PERCENTAGE;
+            set_value(i, j, temp);
         }
     }
 }
