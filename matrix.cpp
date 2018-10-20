@@ -260,16 +260,36 @@ void matrix::change_matrix() {
     }
 }
 //converts every element in matrix to a percentage
-void matrix::percentage()
-{
-    for (int i = 0; i < getRow(); ++i)
-    {
-        for (int j = 0; j < getColumn(); ++j)
-        {
+void matrix::percentage() {
+    for (int i = 0; i < getRow(); ++i) {
+        for (int j = 0; j < getColumn(); ++j) {
             double temp = get_value(j, i) * PERCENTAGE;
             float percent = (float) temp * PERCENTAGE;
             temp = roundf(percent) / PERCENTAGE;
             set_value(i, j, temp);
+        }
+    }
+}
+void matrix::markov() {
+    for (int i = 0; i < getColumn(); ++i) {
+        double sum = 0;
+        for (int j = 0; j < getRow(); ++j) {
+            sum += get_value(j, i);
+        }
+        if (sum == 0) {
+            for (int j = 0; j < getColumn(); ++j) {
+                double temp = 1.0 / getColumn();
+                set_value(j, i, temp);
+            }
+        } else {
+            for (int j = 0; j < getColumn(); ++j) {
+                double temp = get_value(j, i);
+                if (temp == 0) {
+                    set_value(j, i, 0.0);
+                } else {
+                    set_value(j, i, temp / sum);
+                }
+            }
         }
     }
 }

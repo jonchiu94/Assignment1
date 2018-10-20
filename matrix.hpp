@@ -40,6 +40,7 @@ public:
     matrix& scalar_multiply (double random_walk);
     void change_matrix();
     void percentage();
+    void markov();
     int getRow() const;
 
     int getColumn() const;

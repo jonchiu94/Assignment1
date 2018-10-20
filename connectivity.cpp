@@ -27,7 +27,7 @@ matrix connectivity::transition(){
     while(*(S * rank) != rank){
         rank = *(rank * S);
     }
-
+    rank.markov();
     cout<< rank << endl;
 
 }
