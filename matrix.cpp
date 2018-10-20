@@ -98,7 +98,7 @@ ostream &operator<< (std::ostream &os, const matrix &matrix){
 
 
 }
-
+//Nth letter returns the letter in alphabet according to the int passed in
 char matrix::nth_letter(int n) const
 {
     string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
